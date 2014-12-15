@@ -32,7 +32,7 @@ def ProgramHeader():
     # Show all brews currently in secondary fermentation.
     Reporting.secondary_state()
     # Show all brews currently in bottle conditioning.
-    Reporting.bottled_state()
+    #Reporting.bottled_state()
     Reporting.ready_to_drink()
     Reporting.expired()
 
