@@ -73,7 +73,7 @@ def primary_state():
         for name in all_rows:
             test += name
 
-        print("| Primary Fermentation: ", ', '.join(x for x in test))
+        print("| Primary: ", ', '.join(x for x in test))
 
 def secondary_state():
     import sqlite3
@@ -91,7 +91,7 @@ def secondary_state():
         for name in all_rows:
             test += name
 
-        print("| Secondary Fermentation: ", ', '.join(x for x in test))
+        print("| Secondary: ", ', '.join(x for x in test))
 
 def bottled_state():
     import sqlite3
@@ -130,6 +130,11 @@ def ready_to_drink():
 
         print("| Ready to Drink: ", ', '.join(x for x in test))
 
+
+def total_bottles(list):
+    return len(list)*50
+
+
 def expired():
 
     import sqlite3
@@ -147,15 +152,9 @@ def expired():
         for name in all_rows:
             test += name
 
-        print("| Expired: ", ', '.join(x for x in test))
+        tab = '\t'
 
-"""
-def name_brewery():
-    brewery_name = 'placeholder'
-    # Name your brewery
-    global brewery_name
-    brewery_name = input('What is the name of your brewery: ')
-"""
+        print("| Cashed: ", ', '.join(x for x in test), tab*10, '  Reused Bottles: ', total_bottles(test))
 
 
 
@@ -166,6 +165,6 @@ def name_brewery():
 #show_all_tracking()
 #primary_state()
 #secondary_state()
-bottled_state()
-ready_to_drink()
-expired()
+#bottled_state()
+#ready_to_drink()
+#expired()

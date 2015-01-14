@@ -109,6 +109,7 @@ while True:
             if data_requested == '1':
                 print(new_line)
                 Lifecycle.new_brew()
+                break
 
             elif data_requested == '2':
                 print(new_line)

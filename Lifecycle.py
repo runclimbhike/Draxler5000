@@ -1,12 +1,12 @@
 import sqlite3
 import Scheduling
 import Reporting
+import time
+
 
 new_line = '\n'
 conn = sqlite3.connect('brewery.db')
 c = conn.cursor()
-
-### Insert data into database. This will be moved to Update.py
 
 def new_brew():
     '''
@@ -21,18 +21,27 @@ def new_brew():
     bottle_date = Scheduling.bottling_date(int(input('How many days are needed in secondary fermentation: ')))
     drink_date = Scheduling.drink_date(int(input('How many days of bottle conditioning are needed: ')))
     expiration_date = Scheduling.expiration_date(int(input('How many days can the beer stay fresh in the bottle: ')))
+    OG = input('Original Gravity: ')
+    FG = 0.0
+    ABV = 0
 
     # Insert the inputted data into the 'beer' table as long as it hasn't be inputted before.
-    c.execute('INSERT OR IGNORE INTO beer VALUES(NULL,?,?,?,?,?,?,?,?)', (name,
+    c.execute('INSERT OR IGNORE INTO beer VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)', (name,
                                                             state,
                                                             yeast,
                                                             brew_date,
                                                             rack_date,
                                                             bottle_date,
                                                             drink_date,
-                                                            expiration_date))
+                                                            expiration_date,
+                                                            OG,
+                                                            FG,
+                                                            ABV))     # 11
     # Save the committed data to brewery.db
     conn.commit()
+    print(new_line*3)
+    print(name, 'has been successfully written to databank.')
+    time.sleep(3)
 
 def racking():
     '''
@@ -43,47 +52,58 @@ def racking():
     c.execute("UPDATE beer SET state='secondary' WHERE brew_number=?", racked_brew_number)
 
     conn.commit()
-"""
-def bottling():
-
-    bottled_brew_number - input('What is the brew_number that has been bottled: ')
-    c.execute("UPDATE beer SET state='bottled' WHERE brew_number=?", (bottled_brew_number))
-
-    conn.commit()
-"""
 
 def change_state():
     '''
     prints the current state and allows the user to change the state to what they want.
     '''
-    # Print all the current brews so that the brewer can pick the one he/she needs to change.
-    import sqlite3
+
     con = sqlite3.connect('brewery.db')
     with con:
         # Convert to dictionary cursor so that we can refer to the data by their column names.
         con.row_factory = sqlite3.Row
 
         c = con.cursor()
-
+        # Print all the current brews so that the brewer can pick the one he/she needs to change.
         Reporting.show_all()
         print(new_line)
-        updated_brew_number = input('What is the brew # that has changed state: ')
+        updated_brew_number = input('What is the brew # that has changed state > ')
         print(new_line)
         # Print the brew states to pick from
-        states = ['primary', 'secondary', 'bottled', 'drinkable', 'expired']
-        print("Choose one of the following states: ", ', '.join(x for x in states))
-        print(new_line)
-        # Get the new state of the brew from the brewer
-        new_state = input('What is the new state that the beer has been moved to: ')
-        print(new_line)
-        # Verify the input
-        if new_state not in states:
-            print('Please type a state.')
+        states = {
+                    '1': 'primary',
+                    '2': 'secondary',
+                    '3': 'bottled',
+                    '4': 'drinkable',
+                    '5': 'expired'}
+        while True:
+            options = list(states.keys())
+            options.sort()
 
-        else:
+            print('Possible States')
+            for entry in options:
+                print(entry, '.', states[entry])
+
+            # Get the new state of the brew from the brewer
+            print(new_line)
+            selection = input('Choose a number from the list above: ')
+            if selection =='1':
+                new_state = states['1']
+            elif selection == '2':
+                new_state = states['2']
+            elif selection == '3':
+                new_state = states['3']
+            elif selection == '4':
+                new_state = states['4']
+            elif selection == '5':
+                new_state = states['5']
+            else:
+                break
+
             # Update the databank
             con.row_factory = sqlite3.Row
             c.execute("UPDATE beer SET state=? WHERE brew_number=?", (new_state, updated_brew_number))
+
             conn.commit()
 
             # Print out the updated brew
@@ -102,11 +122,13 @@ def change_state():
                                                                   row["bottle_date"],
                                                                   row["drink_date"],
                                                                   row["expiration_date"],))
+            print(new_line*3)
+            print('Successfully written to data bank.')
+            time.sleep(3)
             print(new_line)
-
-
-
-
+            print('Returning to Main Control Console.')
+            time.sleep(3)
+            break
 
 
 
