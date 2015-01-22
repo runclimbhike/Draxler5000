@@ -14,13 +14,19 @@ new_line = '\n'
 side = '|'
 # Display a program initialization splash screen.
 
+# Define a cross-platform 'clear screen'
+def cls():
+    os.system(['clear','cls'][os.name == 'nt'])
+
 # Create the program header
 def ProgramHeader():
     '''
     This is the program header that clears the console and then prints the current status.
     '''
     # Clear the console.
-    os.system('cls')
+
+    cls()
+
     # Print the header
     print(pounds*31)
     print((tab*6), 'Current Brewery Status')
@@ -41,7 +47,7 @@ def ProgramHeader():
 
 def ViewHeader():
     # Clear the console.
-    os.system('cls')
+    cls()
     # Print the header
     print(pounds*31)
     print(tab*5, '      *** VIEW & SEARCH MENU ***')
@@ -50,7 +56,7 @@ def ViewHeader():
 
 def CreateHeader():
     # Clear the console.
-    os.system('cls')
+    cls()
     # Print the header
     print(pounds*31)
     print(tab*6, '*** CREATE & UPDATE MENU ***')
@@ -136,6 +142,7 @@ while True:
 
         Lifecycle.close()
         ProgramHeader()
+
         print('Saving changes, closing database connection and exiting the console.')
         time.sleep(.2)
         ProgramHeader()
@@ -153,5 +160,6 @@ while True:
         ProgramHeader()
         print('Saving changes, closing database connection and exiting the console.....DONE')
         time.sleep(1)
+        cls()
         exit()
 
