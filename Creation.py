@@ -12,12 +12,18 @@ c.execute('''CREATE TABLE IF NOT EXISTS beer
                 (brew_number INTEGER PRIMARY KEY,
                 name varchar(32),
                 state TEXT NOT NULL,
+                description varchar(64),
+                fermentables varchar,
                 yeast varchar NOT NULL,
+                hops varchar,
                 brew_date int,
                 rack_date int,
                 bottle_date int,
                 drink_date int,
-                expiration_date int)''')
+                expiration_date int,
+                OG int,
+                FG int,
+                ABV int)''')
 
 ### Create table 'tracking' to keep track of temperature and air lock activity ie. bubbles/min.
 

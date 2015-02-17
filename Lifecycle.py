@@ -15,7 +15,10 @@ def new_brew():
     # Get information from the brewer about the newly created beer
     name = input('Name: ')
     state = 'primary'
+    description = input('Description: ')
+    fermentables = input('Fermentables: ')
     yeast = input('Yeast: ')
+    hops = input('Hops: ')
     brew_date = Scheduling.brew_date()
     rack_date = Scheduling.rack_date(int(input('How many days are needed in primary fermentation: ')))
     bottle_date = Scheduling.bottling_date(int(input('How many days are needed in secondary fermentation: ')))
@@ -26,9 +29,12 @@ def new_brew():
     ABV = 0
 
     # Insert the inputted data into the 'beer' table as long as it hasn't be inputted before.
-    c.execute('INSERT OR IGNORE INTO beer VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)', (name,
+    c.execute('INSERT OR IGNORE INTO beer VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (name,
                                                             state,
+                                                            description,
+                                                            fermentables,
                                                             yeast,
+                                                            hops,
                                                             brew_date,
                                                             rack_date,
                                                             bottle_date,
@@ -36,7 +42,7 @@ def new_brew():
                                                             expiration_date,
                                                             OG,
                                                             FG,
-                                                            ABV))     # 11
+                                                            ABV))     # 14
     # Save the committed data to brewery.db
     conn.commit()
     print(new_line*3)
@@ -129,11 +135,6 @@ def change_state():
             print('Returning to Main Control Console.')
             time.sleep(3)
             break
-
-
-
-
-
 
 def observation():
     '''
