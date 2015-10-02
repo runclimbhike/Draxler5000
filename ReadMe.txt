@@ -15,7 +15,7 @@ Launch Creation.py with python.   Ex. > C:\python34\python.exe Creation.py
 
 
 Program Status:
-Alpha
+beta
 
 Tested on the following OS platforms:
 Windows 7
